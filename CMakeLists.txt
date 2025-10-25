@@ -10,6 +10,18 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+add_executable(robot_description_fixer src/robot_description_fixer.cpp)
+target_include_directories(robot_description_fixer
+  PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
+ament_target_dependencies(robot_description_fixer "rclcpp" "std_msgs")
+install(TARGETS robot_description_fixer DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
